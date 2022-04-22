@@ -7,7 +7,6 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 
 def get_request(url, **kwargs):
-    print(kwargs)
     print("GET from {} ".format(url))
     try:
         # Call get method of requests library with URL and parameters
@@ -28,11 +27,11 @@ def get_request(url, **kwargs):
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 def post_request(url, json_payload, **kwargs):
-    json_obj = json_payload["review"]
+
     try:
-        response = requests.post(url, json=json_obj, params=kwargs)
+        response = requests.post(url, json=json_payload, params=kwargs)
     except:
-        print("Something went wrong")
+        print("Post Something went wrong")
     return response
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
@@ -54,7 +53,7 @@ def get_dealers_from_cf(url, **kwargs):
                                    short_name=dealer_doc["short_name"],
                                    st=dealer_doc["st"], zip=dealer_doc["zip"])
             results.append(dealer_obj)
-    print(results)
+
     return results
 
 # Create a get_dealer_reviews_from_cf method to get reviews by dealer id from a cloud function
@@ -69,18 +68,22 @@ def get_dealer_reviews_from_cf(url, dealerId):
         data = body["data"]
 
         reviews=data["docs"]
-        for review in reviews:
-            review_obj = DealerReview(name = review["name"],
-                dealership = review["dealership"], review = review["review"], purchase=review["purchase"],
-                purchase_date = review["purchase_date"], car_make = review['car_make'],
-                car_model = review['car_model'], car_year= review['car_year'], sentiment= "none")
 
+        for review in reviews:
+            try:
+                review_obj = DealerReview(name = review["name"],
+                    dealership = review["dealership"], review = review["review"], purchase=review["purchase"],
+                    purchase_date = review["purchase_date"], car_make = review['car_make'],
+                    car_model = review['car_model'], car_year= review['car_year'], sentiment= "none")
+            except:
+                review_obj = DealerReview(name = review["name"],
+                    dealership = review["dealership"], review = review["review"], purchase=review["purchase"],
+                    purchase_date = "none", car_make = "none",
+                    car_model = "none", car_year= "none", sentiment= "none")
 
             review_obj.sentiment = analyze_review_sentiments(review_obj.review)
-            print(review_obj.sentiment)
 
             results.append(review_obj)
-            print(results)
     return results
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text

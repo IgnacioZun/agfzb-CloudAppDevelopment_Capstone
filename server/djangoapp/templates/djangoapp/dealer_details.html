@@ -22,6 +22,11 @@
             <ul class="nav navbar-nav">
               <a class="navbar-brand" href="{% url 'djangoapp:contact' %}">Contacts</a>
             </ul>
+            {% if user.is_authenticated %}
+            <ul class="nav navbar-nav">
+               <a class="nav-link" style="color: red" href="{%url 'djangoapp:add_review' dealer_id %}"> Add Review</a>
+            </ul>
+            {% endif %}
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li>
@@ -45,7 +50,13 @@
         </div>
     </nav>
     <!-- Add reviews as cards -->
+
  <main class="container" style="padding: 3%;">
+   {% for dealer in dealer_details %}
+   Reviews for: <b>
+     {{dealer.full_name}}
+   </b>
+   {% endfor %}
         <div class="card-columns">
             {% for review in reviews %}
                 <div class="card" style="height: 300px; overflow: scroll; overflow-x: hidden;">
