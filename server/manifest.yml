@@ -1,12 +1,12 @@
 applications:
   - name: djangoapp
     routes:
-      - route: djangoapp-fr45.us-south.cf.appdomain.cloud
+      - route: djangoapp-fr4A.us-south.cf.appdomain.cloud
     memory: 128M
     buildpack: python_buildpack
   - name: djangoapp-nginx
     routes:
-      - route: djangoapp-fr45.us-south.cf.appdomain.cloud/static
+      - route: djangoapp-fr4A.us-south.cf.appdomain.cloud/static
     memory: 128M
     buildpack: staticfile_buildpack
     
