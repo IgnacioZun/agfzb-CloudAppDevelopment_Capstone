@@ -8,4 +8,5 @@
     routes:
       - route: djangoapp-fr45.us-south.cf.appdomain.cloud/static
     memory: 128M
-    buildpacks: staticfile_buildpack
+    buildpacks: 
+      url: https://github.com/cloudfoundry/staticfile-buildpack
