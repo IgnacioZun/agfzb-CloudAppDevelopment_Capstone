@@ -3,10 +3,11 @@
     routes:
       - route: djangoapp-fr45.us-south.cf.appdomain.cloud
     memory: 128M
-    buildpacks: python_buildpack
+    buildpacks:
+      - buildpack_URL: https://github.com/cloudfoundry/python-buildpack.git
   - name: djangoapp-nginx
     routes:
       - route: djangoapp-fr45.us-south.cf.appdomain.cloud/static
     memory: 128M
     buildpacks: 
-      url: https://github.com/cloudfoundry/staticfile-buildpack
+      - buildpack_URL: https://github.com/cloudfoundry/staticfile-buildpack.git
